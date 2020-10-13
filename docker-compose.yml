@@ -1,0 +1,29 @@
+version: '2'
+services:
+  website:
+    container_name: php74-jsdemo
+    image: js:multiform
+    build:
+      context: ./
+      dockerfile: .docker/Dockerfile
+    volumes:
+      - D:/dc@vsw/js-demo/:/var/www/html/
+    ports:
+      - 8000:80
+    depends_on:
+      - mysql     
+  mysql:
+        image: mysql
+        container_name: mysql-server-js-80
+        command: --default-authentication-plugin=mysql_native_password
+#        working_dir: /application
+        volumes:
+          -  D:\dc@vsw\docker-exp\mysql-data\backup.sql:/docker-entrypoint-initdb.d/backup.sql
+        restart: always
+        environment:
+          - MYSQL_ROOT_PASSWORD=root
+          - MYSQL_DATABASE=suranabr_dev01
+          - MYSQL_USER=root
+          - MYSQL_PASSWORD=root
+        ports:
+          - "8082:3306"
